@@ -4,7 +4,8 @@
       <div class="col-12 p-4">
         <h1>
           <span>Home Listings</span>
-          <button class="ms-3"><i class="mdi mdi-home-plus-outline"></i></button>
+          <button v-if="account.id" class="btn fs-1 ms-3" type="button" title="Open House Form" data-bs-toggle="modal"
+            data-bs-target="#houseFormModal"><i class="mdi mdi-home-plus-outline"></i></button>
         </h1>
       </div>
     </section>
@@ -14,6 +15,7 @@
       </div>
     </section>
   </div>
+  <HouseFormModalComponent />
 </template>
 
 
@@ -23,6 +25,7 @@ import { computed, reactive, onMounted } from 'vue';
 import Pop from "../utils/Pop";
 import { housesService } from "../services/HousesService.js"
 import HouseCardComponent from "../components/HouseCardComponent.vue";
+import HouseFormModalComponent from "../components/HouseFormModalComponent.vue";
 
 export default {
   setup() {
@@ -35,13 +38,15 @@ export default {
       }
     }
     onMounted(() => {
+      housesService.clearData()
       getHouses();
     });
     return {
-      houses: computed(() => AppState.houses)
+      houses: computed(() => AppState.houses),
+      account: computed(() => AppState.account)
     };
   },
-  components: { HouseCardComponent }
+  components: { HouseCardComponent, HouseFormModalComponent }
 };
 </script>
 
